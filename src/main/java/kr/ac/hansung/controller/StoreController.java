@@ -27,6 +27,7 @@ public class StoreController {
 	@Autowired
 	private StockService stockService;
 	
+	// 관리 매장 변경 화면
 	@RequestMapping("/changestore")
 	public String showStores(Model model) {
 		
@@ -36,6 +37,7 @@ public class StoreController {
 		return "changestore";
 	}
 	
+	// 새 매장 입력 화면
 	@RequestMapping(value = "/newstore")
 	public String newStore(Model model, HttpServletRequest request) {
 		
@@ -44,6 +46,7 @@ public class StoreController {
 		return "newstore";
 	}
 
+	// 새 매장 추가
 	@RequestMapping(value = "/addstore")
 	public String addStore(Model model, @Valid Store store, BindingResult result) {
 		
@@ -56,6 +59,7 @@ public class StoreController {
 		return "insertstoresuccess";
 	}
 	
+	// 관리 매장 변경
 	@RequestMapping("/changestore/{store_name}")
 	public String changeStore(Model model, HttpServletRequest request, @PathVariable ("store_name") String store_name) {
 		
@@ -66,6 +70,7 @@ public class StoreController {
 		return "home";
 	}
 	
+	// 매장 정보 수정을 위한 매장 목록 조회
 	@RequestMapping("/searchstore")
 	public String searchStore(Model model) {
 		
@@ -75,6 +80,7 @@ public class StoreController {
 		return "searchstore";
 	}
 	
+	// 매장 정보 수정을 위한 초기값 입력
 	@RequestMapping(value = "/updatestore/{store_name}")
 	public String inputForUpdate(Model model, @PathVariable ("store_name") String store_name) {
 		
@@ -84,6 +90,7 @@ public class StoreController {
 		return "updatestore";
 	}
 	
+	// 매장 정보 수정
 	@RequestMapping(value = "/updatestore/{store_name}", method = RequestMethod.POST)
 	public String update(Model model, HttpServletRequest request, @PathVariable ("store_name") String store_name, @Valid Store store, BindingResult result) {
 
@@ -116,9 +123,11 @@ public class StoreController {
 		return "updatestoresuccess";
 	}
 
+	// 매장 정보 삭제
 	@RequestMapping(value = "/deletestore/{store_name}", method = RequestMethod.POST)
 	public String deleteStore(Model model, @PathVariable ("store_name") String store_name) {
 		
+		// 매장이 가진 재고 정보를 삭제한 후 매장 정보 삭제
 		stockService.deleteStore(store_name);
 		storeService.deleteStore(store_name);
 		

@@ -29,6 +29,7 @@ public class ProductDao {
 		return jdbcTemplate.queryForObject(sqlStatement, Integer.class);
 	}
 	
+	// 제품 검색 - 제품명
 	// 제품명으로 제품을 검색하여 리턴
 	public Product getProduct(String name) {
 		String sqlStatement = "select * from product where name = ?";
@@ -49,6 +50,7 @@ public class ProductDao {
 		});
 	}
 	
+	// 제품 검색 - 바코드
 	// 바코드로 제품을 검색하여 리턴
 	public Product getProductwithBarcode(String barcode) {
 		String sqlStatement = "select * from product where barcode = ?";
@@ -96,6 +98,7 @@ public class ProductDao {
 		});
 	}
 	
+	// 제품 검색 - 바코드
 	// 바코드를 입력하면 바코드로 시작하는 제품을 리턴
 	public List<Product> searchProducts(String barcode) {
 		String sqlStatement = "select * from product where barcode LIKE ?";
@@ -116,7 +119,7 @@ public class ProductDao {
 		});
 	}
 	
-
+	// 제품 검색 - 제품명
 	// 상품 이름을 입력하면 해당 문자열이 포함된 제품을 리턴
 	public List<Product> searchProductsName(String product_name) {
 		String sqlStatement = "select * from product where product_name LIKE ?";

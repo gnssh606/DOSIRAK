@@ -37,6 +37,7 @@ public class StockController {
 	@Autowired
 	private StoreService storeService;
 	
+	// 테스트용 모든 데이터 조회
 	@RequestMapping("/check")
 	public String showStocks(Model model) {
 		List<Stock> stocks = stockService.getCurrent();
@@ -51,6 +52,7 @@ public class StockController {
 		return "check";
 	}
 	
+	// 제품 판매
 	@RequestMapping(value = "/search")
 	public String search(Model model, Stock stock, HttpServletRequest request) {
 		
@@ -71,6 +73,7 @@ public class StockController {
 		return "search";
 	}
 	
+	// 재고 수정을 위한 재고 목록 조회
 	@RequestMapping(value = "/searchstock")
 	public String searchForUpdate(Model model, HttpServletRequest request, String type, String keyword) {
 		
@@ -82,9 +85,9 @@ public class StockController {
 		List<Product> products = null;
 		List<Stock> stocks = new ArrayList<Stock>();
 		
-		if (type.equals("barcode")) {
+		if (type.equals("barcode")) { // 바코드로 검색했을 경우
 			products = productService.searchProducts(keyword);
-		} else if (type.equals("name")) {
+		} else if (type.equals("name")) { // 제품명으로 검색했을 경우
 			products = productService.searchProductsName(keyword);
 		}
 		
@@ -99,6 +102,7 @@ public class StockController {
 		return "searchstock";
 	}
 	
+	// 재고 수정을 위한 초기값 입력
 	@RequestMapping(value = "/updatestock/{barcode}")
 	public String inputForUpdate(Model model, HttpServletRequest request, @PathVariable ("barcode") String barcode) {
 		
@@ -120,6 +124,7 @@ public class StockController {
 		return "updatestock";
 	}
 	
+	// 재고 수정
 	@RequestMapping(value = "/updatestock/{barcode}", method = RequestMethod.POST)
 	public String update(Model model, HttpServletRequest request, @PathVariable ("barcode") String barcode, @Valid Stock stock, BindingResult result) {
 
@@ -142,6 +147,7 @@ public class StockController {
 		return "stockupdatesuccess";
 	}
 
+	// 재고 삭제
 	@RequestMapping(value = "/delete/{barcode}", method = RequestMethod.POST)
 	public String delete(Model model, HttpServletRequest request, @PathVariable ("barcode") String barcode) {
 

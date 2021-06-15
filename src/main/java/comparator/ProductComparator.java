@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import kr.ac.hansung.model.Product;
 
+// Product List의 정렬을 위한 클래스
 public class ProductComparator implements Comparator<Product> {
 
 	@Override

@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Stock {
+public class Stock { // 재고 정보
 	
 	private int id;
 

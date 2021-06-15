@@ -8,7 +8,7 @@
 	<form method = "post" action = "${ pageContext.request.contextPath }/search ">
 		바코드 : <input type = "text" name = "barcode"/>
 		<input type = "hidden" name = "${_csrf.parameterName}" value = "${_csrf.token}"/>
-		<input type = "submit" value = "검색"/>
+		<input type = "submit" value = "판매"/>
 	</form> 
  </div>
 

@@ -28,6 +28,7 @@ public class StockDao {
 		return jdbcTemplate.queryForObject(sqlStatement, Integer.class);
 	}
 	
+	// 모든 재고 정보를 리턴
 	public List<Stock> getStocks() {
 		String sqlStatement = "select * from stock";
 		return jdbcTemplate.query(sqlStatement, new RowMapper<Stock>() {
@@ -46,6 +47,7 @@ public class StockDao {
 		});
 	}
 	
+	// 재고 검색
 	// 매장 이름과 바코드를 입력하면 재고를 리턴
 	public Stock getStock(String store, String barcode) {
 		String sqlStatement = "select * from stock where store_name = ? and barcode = ?";
@@ -72,6 +74,7 @@ public class StockDao {
 		}
 	}
 	
+	// 판매 처리
 	// 매장 이름과 바코드를 입력하면 재고의 count를 1 줄이고 재고를 리턴
 	public Stock sellStock(String store, String barcode) {
 		String sqlStatement = "select * from stock where store_name = ? and barcode = ?";
@@ -102,6 +105,7 @@ public class StockDao {
 		}
 	}
 	
+	// 재고 검색 - 바코드
 	// 매장 이름과 바코드를 입력하면 바코드로 시작하는 재고를 리턴
 	public List<Stock> searchStocks(String store, String barcode) {
 		String sqlStatement = "select * from stock where store_name = ? and barcode LIKE ?";
@@ -121,6 +125,7 @@ public class StockDao {
 		});
 	}
 	
+	// 재고 검색 - 제품명
 	// 바코드를 입력하면 해당 바코드를 가진 재고를 리턴
 	public List<Stock> searchStocksWithBarcode(String barcode) {
 		String sqlStatement = "select * from stock where barcode = ?";
@@ -140,8 +145,7 @@ public class StockDao {
 		});
 	}
 	
-	
-	
+	// 재고 수정 - 기존 재고 정보가 없을 경우
 	public boolean insert(Stock stock) {
 		String barcode = stock.getBarcode();
 		int count = stock.getCount();
@@ -152,6 +156,7 @@ public class StockDao {
 		return (jdbcTemplate.update(sqlStatement, new Object[] {barcode, count, store_name}) == 1);
 	}
 
+	// 재고 수정 - 기존 재고 정보가 있을 경우
 	public boolean update(Stock stock) {
 		String barcode = stock.getBarcode();
 		int count = stock.getCount();
@@ -162,6 +167,7 @@ public class StockDao {
 		return (jdbcTemplate.update(sqlStatement, new Object[] {count, store_name, barcode}) == 1);
 	}
 	
+	// 재고 정보 삭제
 	public boolean delete(String store, String barcode) {		
 		String sqlStatement = "delete from stock where store_name = ? and barcode=?";
 		

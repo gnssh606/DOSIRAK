@@ -32,6 +32,7 @@ public class ProductController {
 	@Autowired
 	private StockService stockService;
 	
+	// 새 제품 추가 화면
 	@RequestMapping(value = "/newproduct")
 	public String newProduct(Model model, HttpServletRequest request) {
 		
@@ -40,18 +41,26 @@ public class ProductController {
 		return "newproduct";
 	}
 	
+	// 새 제품 정보 등록
 	@RequestMapping(value = "/addproduct")
 	public String addProduct(Model model, @Valid Product product, BindingResult result) {
 		
+		// Validation 검증을 통과하지 못했을 경우
 		if (result.hasErrors())
 			return "newproduct";
 		
-		if (productService.insertProduct(product))
-			model.addAttribute(product);
+		// 이미 해당 바코드를 가진 제품이 존재할 경우 추가하지 않음
+		if (productService.getProductwithBarcode(product.getBarcode()) == null) {
+			if (productService.insertProduct(product))
+				model.addAttribute(product);			
+		} else {
+			return "insertfail";
+		}
 		
 		return "insertsuccess";
 	}
 	
+	// 제품 조회
 	@RequestMapping(value = "/searchproduct")
 	public String searchForUpdate(Model model, String type, String keyword) {
 		
@@ -66,12 +75,14 @@ public class ProductController {
 			products = productService.searchProductsName(keyword);
 		}
 
+		// 바코드를 기준으로 Product를 sorting
 		Collections.sort(products, new ProductComparator());
 		model.addAttribute("products", products);
 		
 		return "searchproduct";
 	}
 	
+	// 제품 정보 수정 화면 초기값 입력
 	@RequestMapping(value = "/updateproduct/{barcode}")
 	public String inputForUpdate(Model model, HttpServletRequest request, @PathVariable ("barcode") String barcode) {
 		
@@ -81,9 +92,11 @@ public class ProductController {
 		return "updateproduct";
 	}
 	
+	// 제품 정보 수정
 	@RequestMapping(value = "/updateproduct/{barcode}", method = RequestMethod.POST)
 	public String update(Model model, @PathVariable ("barcode") String barcode, @Valid Product product, BindingResult result) {
 
+		// Validation 검증을 통과하지 못했을 경우
 		if (result.hasErrors())
 			return "fail";
 		
@@ -109,9 +122,11 @@ public class ProductController {
 		return "updatesuccess";
 	}
 	
+	// 제품 삭제
 	@RequestMapping(value = "/deleteproduct/{barcode}", method = RequestMethod.POST)
 	public String deleteProduct(Model model, HttpServletRequest request, @PathVariable ("barcode") String barcode) {
 		
+		// 제품에 관련된 재고 정보를 삭제 후 제품 정보를 삭제
 		stockService.deleteProduct(barcode);
 		productService.deleteProduct(barcode);
 		

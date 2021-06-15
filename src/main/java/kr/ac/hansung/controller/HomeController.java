@@ -31,11 +31,13 @@ public class HomeController {
 	@Autowired
 	private StoreService storeService;
 	
+	// DOSIRAK/으로 접근할 때
 	@RequestMapping(value = "/")
 	public String home(Model model, HttpServletRequest request) {
 
 		HttpSession session = request.getSession();
 		
+		// 현재 관리 중인 매장 정보를 저장하기 위해 session을 사용
 		if (session.getAttribute("store") == null) {
 			List<Store> stores = storeService.getCurrent();
 			model.addAttribute("stores", stores);
@@ -45,6 +47,7 @@ public class HomeController {
 		return "home";
 	}
 	
+	// Android에서 데이터 통신을 위해 접근할 때
 	@RequestMapping(value = "/data")
 	public String data(Model model, HttpServletRequest request) {
 		

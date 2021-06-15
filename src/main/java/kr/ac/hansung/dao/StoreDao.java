@@ -29,6 +29,7 @@ public class StoreDao {
 		return jdbcTemplate.queryForObject(sqlStatement, Integer.class);
 	}
 	
+	// 매장 정보 검색
 	public Store getStore(String store_name) {
 		String sqlStatement = "select * from store where store_name = ?";
 		try {
@@ -54,6 +55,7 @@ public class StoreDao {
 		}
 	}
 	
+	// 모든 매장 정보를 리턴
 	public List<Store> getStores() {
 		String sqlStatement = "select * from store";
 		return jdbcTemplate.query(sqlStatement, new RowMapper<Store>() {
@@ -72,6 +74,7 @@ public class StoreDao {
 		});
 	}
 	
+	// 새 매장 정보 추가
 	public boolean insert(Store store) {
 		String store_name = store.getStore_name();
 		String location = store.getLocation();
@@ -81,6 +84,7 @@ public class StoreDao {
 		return (jdbcTemplate.update(sqlStatement, new Object[] {store_name, location}) == 1);
 	}
 
+	// 매장 정보 수정
 	public boolean update(Store store) {
 		String store_name = store.getStore_name();
 		String location = store.getLocation();
@@ -90,6 +94,7 @@ public class StoreDao {
 		return (jdbcTemplate.update(sqlStatement, new Object[] {location, store_name}) == 1);
 	}
 	
+	// 매장 정보 삭제
 	public boolean delete(String store_name) {		
 		String sqlStatement = "delete from store where store_name=?";
 		
